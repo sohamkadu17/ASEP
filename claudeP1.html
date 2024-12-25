@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Resume Builder</title>
+    <style>
+        /* Previous styles remain the same until templates section */
+        /* ... (previous styles) ... */
+        /* Reset and Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            color: #333;
+        }
+
+        /* Auth Pages Styles */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+        }
+
+        .auth-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .auth-box h2 {
+            margin-bottom: 1.5rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-primary a{
+            color: white;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: #6366f1;
+            color: rgba(255, 255, 255, 0.897);
+        }
+
+        .btn-primary:hover {
+            background: #4f46e5;
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+            padding: 2rem;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .template-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .template-preview {
+            width: 100%;
+            height: 200px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        /* Resume Editor Styles */
+        .editor {
+            display: none;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .editor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .form-section {
+            background: #ead8d8;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            position: relative;
+            top: 2rem;
+        }
+
+        .profile-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-upload img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        /* Additional Template Styles */
+        .template-1,
+        .template-2,
+        .template-3,
+        .template-4,
+        .template-5 {
+            display: none;
+            margin: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Template 1 - Modern Professional */
+        .template-1 {
+            padding: 2rem;
+            background: white;
+        }
+
+        .template-1 .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #6366f1;
+            padding-bottom: 1rem;
+        }
+
+        .template-1 .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-right: 2rem;
+            border: 3px solid #6366f1;
+        }
+
+        /* Template 2 - Creative Minimal */
+        .template-2 {
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+
+        .template-2 .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .template-2 .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 5px;
+            margin: 0 auto 1rem;
+            display: block;
+        }
+
+        .template-2 .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
+            margin: 1rem 0;
+        }
+
+        /* Template 3 - Bold Corporate */
+        .template-3 {
+            padding: 0;
+            background: white;
+        }
+
+        .template-3 .header {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+        }
+
+        .template-3 .profile-img {
+            width: 140px;
+            height: 140px;
+            border: 4px solid white;
+        }
+
+        .template-3 .contact-info {
+            background: #34495e;
+            color: white;
+            padding: 1rem 2rem;
+        }
+
+        /* Template 4 - Elegant Style */
+        .template-4 {
+            padding: 2rem;
+            background: #fff;
+            border: 1px solid #eee;
+        }
+
+        .template-4 .header {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .template-4 .profile-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0;
+        }
+
+        .template-4 .contact-info {
+            border-left: 3px ;
+            padding-left: 1rem;
+        }
+
+        /* Template 5 - Modern Split */
+        .template-5 {
+            border-radius: 20px;
+            background-color: rgb(105, 192, 246);
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            padding: 0;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif ;
+        }
+
+        .template-5.sidebar {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem;
+        }
+
+        .template-5 .profile-img {
+            width: auto;
+            height: 100px;
+            margin-bottom: 1.5rem;
+            border-radius: 5px;
+        }
+
+        .template-5 .main-content {
+            padding: 2rem;
+            background-color: rgb(248, 250, 255);
+        }
+
+        /* Template Card Previews */
+        .template-card .template-preview {
+            border: 1px solid #ddd;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .template-card .template-preview::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #6366f1, transparent);
+            opacity: 0.1;
+        }
+           /* Form Styles */
+    textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        resize: vertical;
+    }
+
+    .btn-secondary {
+        background: #e2e8f0;
+        color: #333;
+        margin: 0.5rem 0;
+    }
+
+    .btn-secondary:hover {
+        background: #cbd5e1;
+    }
+
+    .experience-entry, .education-entry, .certification-entry, .language-entry {
+        background: #f8fafc;
+        padding: 1rem;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+    }
+
+    .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .skill-tag {
+        background: #6366f1;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .remove-btn {
+        background: none;
+        border: none;
+        color: #ef4444;
+        cursor: pointer;
+        padding: 0.25rem;
+    }
+
+    /* Template Section Styles */
+    .section-title {
+        font-size: 1.25rem;
+        color: #333;
+        margin: 1.5rem 0 1rem;
+        border-bottom: 2px solid #6366f1;
+        padding-bottom: 0.5rem;
+    }
+
+    .experience-item, .education-item {
+        margin-bottom: 1.5rem;
+    }
+
+    .experience-item h3, .education-item h3 {
+        color: #1e293b;
+        margin-bottom: 0.25rem;
+    }
+
+    .experience-item .date, .education-item .date {
+        color: #6366f1;
+        font-size: 0.875rem;
+    }
+
+    .experience-item p, .education-item p {
+        margin: 0.5rem 0;
+        color: #4b5563;
+    }
+
+    .skills-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 1rem 0;
+    }
+
+    .skill-item {
+        background: #f1f5f9;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        color: #1e293b;
+    }
+
+        /* Responsive adjustments for templates */
+        @media (max-width: 768px) {
+            .template-5{
+                grid-template-columns: 1fr;
+                background-color: rgb(234, 167, 167);
+            }
+
+            .template-4 .header {
+                grid-template-columns: 1fr;
+            }
+
+            .template-3 .header {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .template-3 .profile-img {
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Previous HTML structure remains the same until templates section -->
+    
+    <!-- Authentication Pages -->
+    <div class="auth-container" id="loginPage">
+        <div class="auth-box">
+            <h2>Login to Resume Builder</h2>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="input-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary"><a href="AFTER_INTERFACE1.html">Login </a></button>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Don't have an account? <a href="#" id="showSignup">Sign up</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div class="auth-container" id="signupPage" style="display: none;">
+        <div class="auth-box">
+            <h2>Create Account</h2>
+            <form id="signupForm">
+                <div class="input-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="input-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="input-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary"><a href="claudeP1.html">Sign Up</a></button>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Already have an account? <a href="AFTER_INTERFACE1.html" id="showLogin">Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    
+
+    <script>
+        // Previous JavaScript remains the same until template selection
+        // ... (previous JavaScript) ...
+         // Authentication handling
+         document.getElementById('showSignup').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('signupPage').style.display = 'flex';
+        });
+
+        document.getElementById('showLogin').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('signupPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Add authentication logic here
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Add signup logic here
+            document.getElementById('signupPage').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        });
+        // Updated template selection function
+        function selectTemplate(templateId) {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('editor').style.display = 'block';
+
+            // Hide all templates
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`template${i}`).style.display = 'none';
+            }
+
+            // Show selected template
+            document.getElementById(`template${templateId}`).style.display = 'block';
+
+            // Update current template ID for future reference
+            currentTemplate = templateId;
+        }
+
+        // Updated resume update function
+        function updateResume() {
+            const name = document.getElementById('fullName').value || 'Your Name';
+            const title = document.getElementById('jobTitle').value || 'Your Title';
+            const email = document.getElementById('email').value || 'your.email@example.com';
+            const phone = document.getElementById('phone').value || '+1 234 567 890';
+
+            // Update all templates
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`previewName${i}`).textContent = name;
+                document.getElementById(`previewTitle${i}`).textContent = title;
+                document.getElementById(`previewEmail${i}`).textContent = email;
+                document.getElementById(`previewPhone${i}`).textContent = phone;
+            }
+        }
+
+        // Updated profile image upload handler
+        document.getElementById('profileUpload').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imageUrl = e.target.result;
+                    document.getElementById('profilePreview').src = imageUrl;
+                    // Update profile image in all templates
+                    for (let i = 1; i <= 5; i++) {
+                        document.getElementById(`previewProfileImg${i}`).src = imageUrl;
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        let experiences = [];
+let education = [];
+let skills = [];
+let certifications = [];
+let languages = [];
+
+function addExperience() {
+    const experienceList = document.getElementById('experienceList');
+    const experienceId = Date.now();
+    
+    const experienceHtml = `
+        <div class="experience-entry" id="exp-${experienceId}">
+            <div class="input-group">
+                <label>Company</label>
+                <input type="text" onchange="updateResume()" data-exp="${experienceId}">
+            </div>
+            <div class="input-group">
+                <label>Position</label>
+                <input type="text" onchange="updateResume()" data-exp="${experienceId}">
+            </div>
+            <div class="input-group">
+                <label>Date Range</label>
+                <input type="text" placeholder="e.g., Jan 2020 - Present" onchange="updateResume()" data-exp="${experienceId}">
+            </div>
+            <div class="input-group">
+                <label>Description</label>
+                <textarea rows="3" onchange="updateResume()" data-exp="${experienceId}"></textarea>
+            </div>
+            <button class="remove-btn" onclick="removeExperience('${experienceId}')">Remove</button>
+        </div>
+    `;
+    
+    experienceList.insertAdjacentHTML('beforeend', experienceHtml);
+    experiences.push({id: experienceId, data: {}});
+    updateResume();
+}
+
+function removeExperience(id) {
+    document.getElementById(`exp-${id}`).remove();
+    experiences = experiences.filter(exp => exp.id !== id);
+    updateResume();
+}
+
+function addEducation() {
+    const educationList = document.getElementById('educationList');
+    const educationId = Date.now();
+    
+    const educationHtml = `
+        <div class="education-entry" id="edu-${educationId}">
+            <div class="input-group">
+                <label>Institution</label>
+                <input type="text" onchange="updateResume()" data-edu="${educationId}">
+            </div>
+            <div class="input-group">
+                <label>Degree</label>
+                <input type="text" onchange="updateResume()" data-edu="${educationId}">
+            </div>
+            <div class="input-group">
+                <label>Date Range</label>
+                <input type="text" placeholder="e.g., 2016 - 2020" onchange="updateResume()" data-edu="${educationId}">
+            </div>
+            <div class="input-group">
+                <label>Description</label>
+                <textarea rows="2" onchange="updateResume()" data-edu="${educationId}"></textarea>
+            </div>
+            <button class="remove-btn" onclick="removeEducation('${educationId}')">Remove</button>
+        </div>
+    `;
+    
+    educationList.insertAdjacentHTML('beforeend', educationHtml);
+    education.push({id: educationId, data: {}});
+    updateResume();
+}
+
+function removeEducation(id) {
+    document.getElementById(`edu-${id}`).remove();
+    education = education.filter(edu => edu.id !== id);
+    updateResume();
+}
+
+function addSkill() {
+    const skillInput = document.getElementById('skillInput');
+    const skill = skillInput.value.trim();
+    
+    if (skill && !skills.includes(skill)) {
+        skills.push(skill);
+        updateSkillTags();
+        updateResume();
+    }
+    
+    skillInput.value = '';
+}
+
+function removeSkill(skill) {
+    skills = skills.filter(s => s !== skill);
+    updateSkillTags();
+    updateResume();
+}
+
+function updateSkillTags() {
+    const skillTags = document.getElementById('skillTags');
+    skillTags.innerHTML = skills.map(skill => `
+        <div class="skill-tag">
+            ${skill}
+            <button class="remove-btn" onclick="removeSkill('${skill}')">&times;</button>
+        </div>
+    `).join('');
+}
+
+function addCertification() {
+    const certificationsList = document.getElementById('certificationsList');
+    const certId = Date.now();
+    
+    const certHtml = `
+        <div class="certification-entry" id="cert-${certId}">
+            <div class="input-group">
+                <label>Certification Name</label>
+                <input type="text" onchange="updateResume()" data-cert="${certId}">
+            </div>
+            <div class="input-group">
+                <label>Issuing Organization</label>
+                <input type="text" onchange="updateResume()" data-cert="${certId}">
+            </div>
+            <div class="input-group">
+                <label>Date</label>
+                <input type="text" placeholder="e.g., June 2023" onchange="updateResume()" data-cert="${certId}">
+            </div>
+            <button class="remove-btn" onclick="removeCertification('${certId}')">Remove</button>
+        </div>
+    `;
+    
+    certificationsList.insertAdjacentHTML('beforeend', certHtml);
+    certifications.push({id: certId, data: {}});
+    updateResume();
+}
+
+function removeCertification(id) {
+    document.getElementById(`cert-${id}`).remove();
+    certifications = certifications.filter(cert => cert.id !== id);
+    updateResume();
+}
+
+function addLanguage() {
+    const languagesList = document.getElementById('languagesList');
+    const langId = Date.now();
+    
+    const langHtml = `
+        <div class="language-entry" id="lang-${langId}">
+            <div class="input-group">
+                <label>Language</label>
+                <input type="text" onchange="updateResume()" data-lang="${langId}">
+            </div>
+            <div class="input-group">
+                <label>Proficiency</label>
+                <select onchange="updateResume()" data-lang="${langId}">
+                    <option value="Native">Native</option>
+                    <option value="Fluent">Fluent</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Basic">Basic</option>
+                </select>
+            </div>
+            <button class="remove-btn" onclick="removeLanguage('${langId}')">Remove</button>
+        </div>
+    `;
+    
+    languagesList.insertAdjacentHTML('beforeend', langHtml);
+    languages.push({id: langId, data: {}});
+    updateResume();
+}
+
+function removeLanguage(id) {
+    document.getElementById(`lang-${id}`).remove();
+    languages = languages.filter(lang => lang.id !== id);
+    updateResume();
+}
+
+function updateSections() {
+    const certSection = document.getElementById('certificationsSection');
+    const langSection = document.getElementById('languagesSection');
+    
+    certSection.style.display = document.getElementById('showCertifications').checked ? 'block' : 'none';
+    langSection.style.display = document.getElementById('showLanguages').checked ? 'block' : 'none';
+    
+    updateResume();
+}
+
+function updateResume() {
+    // Previous update code for basic info
+    const name = document.getElementById('fullName').value || 'Your Name';
+    const title = document.getElementById('jobTitle').value || 'Your Title';
+    const email = document.getElementById('email').value || 'your.email@example.com';
+    const phone = document.getElementById('phone').value || '+1 234 567 890';
+    const location = document.getElementById('location').value || 'City, Country';
+    const summary = document.getElementById('summary').value || '';
+
+    // Update all templates with the new sections
+    for(let i = 1; i <= 5; i++) {
+        // Update basic info
+        document.getElementById(`previewName${i}`).textContent = name;
+        document.getElementById(`previewTitle${i}`).textContent = title;
+        document.getElementById(`previewEmail${i}`).textContent = email;
+        document.getElementById(`previewPhone${i}`).textContent = phone;
+        
+        // Update additional sections
+        updateExperienceSection(i);
+        updateEducationSection(i);
+        updateSkillsSection(i);
+        updateCertificationsSection(i);
+        updateLanguagesSection(i);
+    }
+}
+// Helper functions for updating specific sections 
+function updateExperienceSection(templateId) {
+    const experienceSection = document.querySelector(`#template${templateId} .experience-section`);
+    if (!experienceSection) return;
+    
+    experienceSection.innerHTML = experiences.map(exp => {
+        const data = exp.data;
+        return `
+            <div class="experience-item">
+                <h3>${data.company || 'Company Name'}</h3>
+                <div class="date">${data.date || 'Date Range'}</div>
+                <h4>${data.position || 'Position'}</h4>
+                <p>${data.description || 'Description'}</p>
+            </div>
+        `;
+    }).join('');
+}
+
+    </script>
+</body>
+
+</html>
