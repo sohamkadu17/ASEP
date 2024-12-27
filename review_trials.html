@@ -29,7 +29,7 @@
         }
 
         nav {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            background: linear-gradient(135deg, var(--primary-dark),#2ecc71);
             padding: 1rem;
             position: fixed;
             width: 100%;
@@ -85,7 +85,7 @@
             left: 0;
             height: 100%;
             width: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+            background: linear-gradient(90deg, #2ecc71, var(--accent));
             transition: width 0.5s ease;
         }
 
@@ -110,8 +110,8 @@
         }
 
         .step.completed .step-circle {
-            background: var(--primary);
-            border-color: var(--primary);
+            background:#2ecc71;
+            border-color: #2ecc71;
             color: white;
         }
 
@@ -330,7 +330,7 @@
         <div class="review-section">
             <div class="section-header">
                 <h2>Personal Information</h2>
-                <button class="edit-btn">Edit</button>
+                <button type="button" onclick="window.location.href='personal-info-page.html'" class="edit-btn">Edit</button>
             </div>
             <div class="info-grid">
                 <div class="info-item">
@@ -355,7 +355,7 @@
         <div class="review-section">
             <div class="section-header">
                 <h2>Experience</h2>
-                <button class="edit-btn">Edit</button>
+                <button type="button" onclick="window.location.href='AFTER_INTERFACE3.html'" class="edit-btn">Edit</button>
             </div>
             <div class="info-item">
                 <div class="info-label">Current Position</div>
@@ -366,7 +366,7 @@
         <div class="review-section">
             <div class="section-header">
                 <h2>Education</h2>
-                <button class="edit-btn">Edit</button>
+                <button type="button" onclick="window.location.href='education-page.html'" class="edit-btn">Edit</button>
             </div>
             <div class="info-item">
                 <div class="info-label">Latest Degree</div>
@@ -379,14 +379,14 @@
                 <h2>Ready to finalize your resume?</h2>
             </div>
             <div class="preview-actions">
-                <button class="preview-btn btn-preview">Preview Resume</button>
-                <button class="preview-btn btn-download">Download PDF</button>
+                <button type="button" onclick="window.location.href='FINAL_PAGE.html'" class="preview-btn btn-preview">Preview Resume</button>
+                <button type="button" onclick="window.location.href='Finalzed_final-page.html'" class="preview-btn btn-download">Download PDF</button>
             </div>
         </div>
 
         <div class="nav-buttons">
-            <button class="nav-btn btn-back">Back</button>
-            <button class="nav-btn btn-finish">Finish</button>
+            <button type="button" onclick="window.location.href='education-page.html'" class="nav-btn btn-back">Back</button>
+            <button type="button" onclick="window.location.href='Finalzed_final-page.html'" class="nav-btn btn-finish">Finish</button>
         </div>
     </main>
 
