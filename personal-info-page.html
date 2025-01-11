@@ -310,7 +310,7 @@
                     <div class="upload-photo">
                         <div class="photo-preview">
                             <center>
-                                  <img src="/api/placeholder/100/100" alt="Profile photo preview">
+                                  <img src="images.png" alt="Profile photo preview">
                             </center>
                         </div>
                         <button type="button" class="upload-btn">Upload Photo</button>
@@ -356,6 +356,116 @@
     </main>
 
     <script>
+
+
+        // Get DOM elements
+const uploadButton = document.querySelector('.upload-btn');
+const photoPreview = document.querySelector('.photo-preview img');
+const fileInput = document.createElement('input');
+fileInput.type = 'file';
+fileInput.accept = 'image/*';
+fileInput.style.display = 'none';
+document.body.appendChild(fileInput);
+
+// Maximum file size in bytes (2MB)
+const MAX_FILE_SIZE = 2 * 1024 * 1024;
+
+// Handle file selection
+fileInput.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    
+    if (!file) return;
+    
+    // Validate file size
+    if (file.size > MAX_FILE_SIZE) {
+        alert('File size should not exceed 2MB');
+        return;
+    }
+    
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+    }
+    
+    // Create FileReader to read the image
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        // Update preview image
+        photoPreview.src = e.target.result;
+        photoPreview.alt = 'Profile photo';
+        
+        // Store the base64 image data to be sent with the form
+        const imageData = e.target.result;
+        // Add a hidden input to store the image data
+        let hiddenInput = document.getElementById('profile-image-data');
+        if (!hiddenInput) {
+            hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.id = 'profile-image-data';
+            hiddenInput.name = 'profileImage';
+            document.getElementById('personal-info-form').appendChild(hiddenInput);
+        }
+        hiddenInput.value = imageData;
+    };
+    
+    reader.onerror = function() {
+        alert('Error reading file');
+    };
+    
+    // Read the image file as a data URL
+    reader.readAsDataURL(file);
+});
+
+// Handle upload button click
+uploadButton.addEventListener('click', function() {
+    fileInput.click();
+});
+
+// Add drag and drop support
+const dropZone = document.querySelector('.photo-preview');
+
+dropZone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    dropZone.style.border = '2px dashed #3498db';
+});
+
+dropZone.addEventListener('dragleave', function(e) {
+    e.preventDefault();
+    dropZone.style.border = 'none';
+});
+
+dropZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dropZone.style.border = 'none';
+    
+    const file = e.dataTransfer.files[0];
+    if (file) {
+        fileInput.files = e.dataTransfer.files;
+        const event = new Event('change');
+        fileInput.dispatchEvent(event);
+    }
+});
+
+// Add form submit handler to include image data
+document.getElementById('personal-info-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Create FormData object
+    const formData = new FormData(this);
+    
+    // Log form data (for demonstration)
+    for (let pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+    }
+    
+    // Here you would typically send the formData to your server
+    // using fetch or XMLHttpRequest
+});
+
+
+
         // Form field focus effects
         const inputs = document.querySelectorAll('input, textarea');
         inputs.forEach(input => {
